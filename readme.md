@@ -13,7 +13,10 @@
 
 Here is a video demo.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/MQ0SCnOcjaI" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+http://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg
+
+[![微信跳一跳](https://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg)](https://youtu.be/MQ0SCnOcjaI "自动玩微信小游戏跳一跳")
+
 
 ### If you fail
 
