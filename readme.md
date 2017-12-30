@@ -13,8 +13,6 @@
 
 Here is a video demo.
 
-http://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg
-
 [![微信跳一跳](https://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg)](https://youtu.be/MQ0SCnOcjaI "自动玩微信小游戏跳一跳")
 
 
