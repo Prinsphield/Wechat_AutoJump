@@ -16,7 +16,7 @@ def multi_scale_search(pivot, screen):
     h, w = pivot.shape[:2]
 
     found = None
-    for scale in np.linspace(0.7, 1.3, 10)[::-1]:
+    for scale in np.linspace(0.7, 1.3, 15)[::-1]:
         resized = cv2.resize(screen, (int(W * scale), int(H * scale)))
         r = W / float(resized.shape[1])
         if resized.shape[0] < h or resized.shape[1] < w:
@@ -130,7 +130,7 @@ class WechatAutoJump(object):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
-    parser.add_argument('--sensitivity', default=2.05, type=float)
+    parser.add_argument('--sensitivity', default=2, type=float)
     parser.add_argument('--resource', default='resource', type=str)
     parser.add_argument('--debug', default=False, action='store_true')
     args = parser.parse_args()
