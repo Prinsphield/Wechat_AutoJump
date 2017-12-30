@@ -4,7 +4,7 @@
 
 import numpy as np
 import time
-import os, glob
+import os, glob, shutil
 import cv2
 import argparse
 from multiprocessing import Pool
@@ -36,10 +36,13 @@ def multi_scale_search(pivot, screen):
     return [start_h, start_w, end_h, end_w, score]
 
 class WechatAutoJump(object):
-    def __init__(self, resolution, sensitivity, resource_dir='resource'):
+    def __init__(self, resolution, sensitivity, debug, resource_dir):
         self.resolution = resolution
+        self.scale = self.resolution[1]/720.
         self.sensitivity = sensitivity
+        self.debug = debug
         self.resource_dir = resource_dir
+        self.step = 0
         self.load_resource()
 
     def load_resource(self):
@@ -48,10 +51,15 @@ class WechatAutoJump(object):
         table_file  = glob.glob(os.path.join(self.resource_dir, 'table/*.png'))
         self.jump_file = [cv2.imread(name, 0) for name in circle_file + table_file]
 
-    def get_current_state(self, i):
+    def get_current_state(self):
         os.system('adb shell screencap -p /sdcard/1.png')
-        os.system('adb pull /sdcard/1.png state_{:03d}.png'.format(i))
-        return cv2.imread('state_{:03d}.png'.format(i), 0)
+        os.system('adb pull /sdcard/1.png state.png')
+        if self.debug:
+            shutil.copyfile('state.png', 'state_{:03d}.png'.format(self.step))
+
+        state = cv2.imread('state.png', 0)
+        state = cv2.resize(state, (720, int(self.resolution[0] / self.scale)))
+        return state
 
     def get_player_position(self, state):
         return multi_scale_search(self.player, state)
@@ -89,26 +97,26 @@ class WechatAutoJump(object):
         print(cmd)
         os.system(cmd)
 
-    def debug(self, i):
+    def debugging(self):
         current_state = self.state.copy()
         cv2.rectangle(current_state, (self.player_pos[1], self.player_pos[0]), (self.player_pos[3], self.player_pos[2]), (0,255,0), 2)
         cv2.rectangle(current_state, (self.target_pos[1], self.target_pos[0]), (self.target_pos[3], self.target_pos[2]), (0,0,255), 2)
-        cv2.imwrite('state_{:03d}_res.png'.format(i), current_state)
+        cv2.imwrite('state_{:03d}_res.png'.format(self.step), current_state)
 
-    def play(self, i):
-        self.state = self.get_current_state(i)
+    def play(self):
+        self.state = self.get_current_state()
         self.player_pos = self.get_player_position(self.state)
         self.target_pos = self.get_target_position(self.state, self.player_pos)
-        # self.debug(i)
+        if self.debug:
+            self.debugging()
         self.jump(self.player_pos, self.target_pos)
+        self.step += 1
         time.sleep(1)
 
     def run(self):
         try:
-            i = 0
             while True:
-                i += 1
-                self.play(i)
+                self.play()
         except KeyboardInterrupt:
                 pass
 
@@ -127,8 +135,9 @@ if __name__ == "__main__":
     parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
     parser.add_argument('--sensitivity', default=2.05, type=float)
     parser.add_argument('--resource', default='resource', type=str)
+    parser.add_argument('--debug', default=False, action='store_true')
     args = parser.parse_args()
     # print(args)
 
-    AI = WechatAutoJump(args.resolution, args.sensitivity, args.resource)
+    AI = WechatAutoJump(args.resolution, args.sensitivity, args.debug, args.resource)
     AI.run()

@@ -101,6 +101,6 @@ ENV/
 .mypy_cache/
 
 ref/
-
+state*.png
 
 
