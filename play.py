@@ -99,7 +99,7 @@ class WechatAutoJump(object):
         self.state = self.get_current_state(i)
         self.player_pos = self.get_player_position(self.state)
         self.target_pos = self.get_target_position(self.state, self.player_pos)
-        self.debug(i)
+        # self.debug(i)
         self.jump(self.player_pos, self.target_pos)
         time.sleep(1)
 
@@ -132,4 +132,3 @@ if __name__ == "__main__":
 
     AI = WechatAutoJump(args.resolution, args.sensitivity, args.resource)
     AI.run()
-    # AI.test_detection('2.png')
