@@ -102,6 +102,8 @@ ENV/
 
 *DS_Store
 ref/
+resource1/
+test/
 state*.png
 
 
