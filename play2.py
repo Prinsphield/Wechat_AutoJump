@@ -11,12 +11,12 @@ from multiprocessing import Pool
 from functools import partial
 from itertools import repeat
 
-def multi_scale_search(pivot, screen):
+def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
     h, w = pivot.shape[:2]
 
     found = None
-    for scale in np.linspace(0.7, 1.3, 15)[::-1]:
+    for scale in np.linspace(1-range, 1+range, num)[::-1]:
         resized = cv2.resize(screen, (int(W * scale), int(H * scale)))
         r = W / float(resized.shape[1])
         if resized.shape[0] < h or resized.shape[1] < w:
@@ -63,35 +63,34 @@ class WechatAutoJump(object):
 
     def get_player_position(self, state):
         state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
-        return multi_scale_search(self.player, state)
+        pos = multi_scale_search(self.player, state, 0.3, 10)
+        h, w = int((pos[0] + 13 * pos[2])/14.), (pos[1] + pos[3])//2
+        return np.array([h, w])
 
-    def get_target_position0(self, state, player_pos):
+    def get_target_position(self, state, player_pos):
         state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
-        state_cut = state[:player_pos[2],:]
+        state_cut = state[:player_pos[0],:]
         target_pos = None
         for target in self.jump_file:
-            pos = multi_scale_search(target, state_cut)
+            pos = multi_scale_search(target, state_cut, 0.4, 15)
             if target_pos is None or pos[-1] > target_pos[-1]:
                 target_pos = pos
         return np.array([(target_pos[0]+target_pos[2])//2, (target_pos[1]+target_pos[3])//2])
 
-    def get_target_position(self, state, player_pos):
-        state_cut = state[:player_pos[2],:,:]
+    def get_target_position_fast(self, state, player_pos):
+        state_cut = state[:player_pos[0],:,:]
         a = np.uint8((state_cut == [245,245,245]).astype(np.float32)[:, :, 0] * 255)
         b1, b2 = cv2.connectedComponents(a)
         for i in range(1, np.max(b2) + 1):
             x, y = np.where(b2 == i)
-            if len(x) > 250 and len(x) < 450:
+            # print('fast', len(x))
+            if len(x) > 280 and len(x) < 310:
                 r_x, r_y = x, y
         h, w = int(r_x.mean()), int(r_y.mean())
         return np.array([h, w])
 
     def jump(self, player_pos, target_pos):
-        p_s = np.array([player_pos[2], (player_pos[1]+player_pos[3])//2])
-        # p_e = np.array([(target_pos[0]+target_pos[2])//2, (target_pos[1]+target_pos[3])//2])
-        p_e = target_pos
-        distance = np.linalg.norm(p_s - p_e)
-
+        distance = np.linalg.norm(player_pos - target_pos)
         press_time = distance * self.sensitivity
         press_time = int(press_time)
         cmd = 'adb shell input swipe 320 410 320 410 ' + str(press_time)
@@ -100,8 +99,7 @@ class WechatAutoJump(object):
 
     def debugging(self):
         current_state = self.state.copy()
-        cv2.rectangle(current_state, (self.player_pos[1], self.player_pos[0]), (self.player_pos[3], self.player_pos[2]), (0,255,0), 2)
-        # cv2.rectangle(current_state, (self.target_pos[1], self.target_pos[0]), (self.target_pos[3], self.target_pos[2]), (0,0,255), 2)
+        cv2.circle(current_state, (self.player_pos[1], self.player_pos[0]), 5, (0,255,0), -1)
         cv2.circle(current_state, (self.target_pos[1], self.target_pos[0]), 5, (0,0,255), -1)
         cv2.imwrite('state_{:03d}_res.png'.format(self.step), current_state)
 
@@ -109,9 +107,9 @@ class WechatAutoJump(object):
         self.state = self.get_current_state()
         self.player_pos = self.get_player_position(self.state)
         try:
-            self.target_pos = self.get_target_position(self.state, self.player_pos)
+            self.target_pos = self.get_target_position_fast(self.state, self.player_pos)
         except:
-            self.target_pos = self.get_target_position0(self.state, self.player_pos)
+            self.target_pos = self.get_target_position(self.state, self.player_pos)
         if self.debug:
             self.debugging()
         self.jump(self.player_pos, self.target_pos)
@@ -126,11 +124,10 @@ class WechatAutoJump(object):
                 pass
 
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
-    parser.add_argument('--sensitivity', default=2.02, type=float)
+    parser.add_argument('--sensitivity', default=2.0515, type=float)
     parser.add_argument('--resource', default='resource', type=str)
     parser.add_argument('--debug', default=False, action='store_true')
     args = parser.parse_args()
