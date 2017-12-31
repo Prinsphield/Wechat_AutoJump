@@ -76,12 +76,12 @@ class WechatAutoJump(object):
         return np.array([(target_pos[0]+target_pos[2])//2, (target_pos[1]+target_pos[3])//2])
 
     def get_target_position(self, state, player_pos):
-        state_cut = state
+        state_cut = state[:player_pos[2],:,:]
         a = np.uint8((state_cut == [245,245,245]).astype(np.float32)[:, :, 0] * 255)
         b1, b2 = cv2.connectedComponents(a)
         for i in range(1, np.max(b2) + 1):
             x, y = np.where(b2 == i)
-            if len(x) > 200 and len(x) < 400:
+            if len(x) > 250 and len(x) < 450:
                 r_x, r_y = x, y
         h, w = int(r_x.mean()), int(r_y.mean())
         return np.array([h, w])
@@ -116,7 +116,7 @@ class WechatAutoJump(object):
             self.debugging()
         self.jump(self.player_pos, self.target_pos)
         self.step += 1
-        time.sleep(1)
+        time.sleep(1.5)
 
     def run(self):
         try:
@@ -130,7 +130,7 @@ class WechatAutoJump(object):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
-    parser.add_argument('--sensitivity', default=2, type=float)
+    parser.add_argument('--sensitivity', default=2.02, type=float)
     parser.add_argument('--resource', default='resource', type=str)
     parser.add_argument('--debug', default=False, action='store_true')
     args = parser.parse_args()
