@@ -36,7 +36,8 @@ def multi_scale_search(pivot, screen, range=0.3, num=10):
     return [start_h, start_w, end_h, end_w, score]
 
 class WechatAutoJump(object):
-    def __init__(self, resolution, sensitivity, debug, resource_dir):
+    def __init__(self, phone, resolution, sensitivity, debug, resource_dir):
+        self.phone = phone
         self.resolution = resolution
         self.scale = self.resolution[1]/720.
         self.sensitivity = sensitivity
@@ -44,6 +45,9 @@ class WechatAutoJump(object):
         self.resource_dir = resource_dir
         self.step = 0
         self.load_resource()
+        if self.phone == 'IOS':
+            self.client = wda.Client()
+            self.sess = self.client.session()
 
     def load_resource(self):
         self.player = cv2.imread(os.path.join(self.resource_dir, 'player.png'), 0)
@@ -52,8 +56,12 @@ class WechatAutoJump(object):
         self.jump_file = [cv2.imread(name, 0) for name in circle_file + table_file]
 
     def get_current_state(self):
-        os.system('adb shell screencap -p /sdcard/1.png')
-        os.system('adb pull /sdcard/1.png state.png')
+        if self.phone == 'Android':
+            os.system('adb shell screencap -p /sdcard/1.png')
+            os.system('adb pull /sdcard/1.png state.png')
+        elif self.phone == 'IOS':
+            self.client.screenshot('state.png')
+
         if self.debug:
             shutil.copyfile('state.png', 'state_{:03d}.png'.format(self.step))
 
@@ -93,9 +101,12 @@ class WechatAutoJump(object):
         distance = np.linalg.norm(player_pos - target_pos)
         press_time = distance * self.sensitivity
         press_time = int(press_time)
-        cmd = 'adb shell input swipe 320 410 320 410 ' + str(press_time)
-        print(cmd)
-        os.system(cmd)
+        if self.phone == 'Android':
+            cmd = 'adb shell input swipe 320 410 320 410 ' + str(press_time)
+            print(cmd)
+            os.system(cmd)
+        elif self.phone == 'IOS':
+            self.sess.tap_hold(200, 200, press_time / 1000.)
 
     def debugging(self):
         current_state = self.state.copy()
@@ -126,6 +137,7 @@ class WechatAutoJump(object):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('--phone', default='Android', choices=['Android', 'IOS'], type=str, help='OS')
     parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
     parser.add_argument('--sensitivity', default=2.051, type=float)
     parser.add_argument('--resource', default='resource', type=str)
@@ -133,5 +145,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # print(args)
 
-    AI = WechatAutoJump(args.resolution, args.sensitivity, args.debug, args.resource)
+    AI = WechatAutoJump(args.phone, args.resolution, args.sensitivity, args.debug, args.resource)
     AI.run()
