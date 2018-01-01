@@ -68,7 +68,7 @@ class WechatAutoJump(object):
             shutil.copyfile('state.png', os.path.join(self.debug, 'state_{:03d}.png'.format(self.step)))
 
         state = cv2.imread('state.png')
-        state = cv2.resize(state, (720, int(self.resolution[0] / self.scale)))
+        state = cv2.resize(state, (720, int(self.resolution[0] / self.scale)), interpolation=cv2.INTER_NEAREST)
         return state
 
     def get_player_position(self, state):
