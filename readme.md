@@ -24,8 +24,7 @@ It is easy to reach the state of art as long as you like.
 
 ### Demo Video
 
-Here is a video demo (old version).
-Current version is much faster than this one. Excited!
+Here is a video demo (old version). Current version is much faster than this one. Excited!
 
 [![微信跳一跳](https://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg)](https://youtu.be/MQ0SCnOcjaI "自动玩微信小游戏跳一跳")
 
