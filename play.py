@@ -48,6 +48,8 @@ class WechatAutoJump(object):
         if self.phone == 'IOS':
             self.client = wda.Client()
             self.sess = self.client.session()
+        if self.debug:
+            os.mkdir(self.debug)
 
     def load_resource(self):
         self.player = cv2.imread(os.path.join(self.resource_dir, 'player.png'), 0)
@@ -63,7 +65,7 @@ class WechatAutoJump(object):
             self.client.screenshot('state.png')
 
         if self.debug:
-            shutil.copyfile('state.png', 'state_{:03d}.png'.format(self.step))
+            shutil.copyfile('state.png', os.path.join(self.debug, 'state_{:03d}.png'.format(self.step)))
 
         state = cv2.imread('state.png')
         state = cv2.resize(state, (720, int(self.resolution[0] / self.scale)))
@@ -113,7 +115,7 @@ class WechatAutoJump(object):
         current_state = self.state.copy()
         cv2.circle(current_state, (self.player_pos[1], self.player_pos[0]), 5, (0,255,0), -1)
         cv2.circle(current_state, (self.target_pos[1], self.target_pos[0]), 5, (0,0,255), -1)
-        cv2.imwrite('state_{:03d}_res_h_{}_w_{}.png'.format(self.step, self.target_pos[0], self.target_pos[1]), current_state)
+        cv2.imwrite(os.path.join(self.debug, 'state_{:03d}_res_h_{}_w_{}.png'.format(self.step, self.target_pos[0], self.target_pos[1])), current_state)
 
     def play(self):
         self.state = self.get_current_state()
@@ -138,11 +140,11 @@ class WechatAutoJump(object):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--phone', default='Android', choices=['Android', 'IOS'], type=str, help='OS')
+    parser.add_argument('--phone', default='Android', choices=['Android', 'IOS'], type=str, help='mobile phone OS')
     parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
-    parser.add_argument('--sensitivity', default=2.051, type=float)
-    parser.add_argument('--resource', default='resource', type=str)
-    parser.add_argument('--debug', default=False, action='store_true')
+    parser.add_argument('--sensitivity', default=2.051, type=float, help='constant for press time')
+    parser.add_argument('--resource', default='resource', type=str, help='resource dir')
+    parser.add_argument('--debug', default=None, type=str, help='debug mode, specify a directory for storing log files.')
     args = parser.parse_args()
     # print(args)
 

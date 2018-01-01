@@ -101,9 +101,10 @@ ENV/
 .mypy_cache/
 
 *DS_Store
+state*.png
 ref/
 resource1/
 test/
-state*.png
+exp*/
 
 
