@@ -152,7 +152,7 @@ class WechatAutoJump(object):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--phone', default='Android', choices=['Android', 'IOS'], type=str, help='mobile phone OS')
-    parser.add_argument('--sensitivity', default=2.051, type=float, help='constant for press time')
+    parser.add_argument('--sensitivity', default=2.04, type=float, help='constant for press time')
     parser.add_argument('--resource', default='resource', type=str, help='resource dir')
     parser.add_argument('--debug', default=None, type=str, help='debug mode, specify a directory for storing log files.')
     args = parser.parse_args()
