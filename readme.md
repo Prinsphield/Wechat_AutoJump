@@ -18,7 +18,7 @@
 Our method can correctly detect the positions of the man (green dot) and the destination (red dot).
 
 It is easy to reach the state of art as long as you like.
-But I choose go die after 859 jumps for about 1.5 hours.
+But I choose to go die after 859 jumps for about 1.5 hours.
 
 <div align="center">
 <img align="center" src="resource/state_859.png" width="250" alt="state_859">
