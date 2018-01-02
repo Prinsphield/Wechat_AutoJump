@@ -9,10 +9,9 @@
 
 ### Run
 
-	python play.py --phone Android --resolution 1280 720 --sensitivity 2.051
+	python play.py --phone Android --sensitivity 2.051
 
 - `--phone` has two options: Android or IOS.
-- `--resolution` is your phone's height and width.
 - `--sensitivity` is the constant parameter that controls the pressing time.
 
 It is easy to reach the state of art as long as you like.
