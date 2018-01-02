@@ -89,8 +89,12 @@ class WechatAutoJump(object):
 
     def get_target_position_fast(self, state, player_pos):
         state_cut = state[:player_pos[0],:,:]
-        a = np.uint8((state_cut == [245,245,245]).astype(np.float32)[:, :, 0] * 255)
-        b1, b2 = cv2.connectedComponents(a)
+        m1 = (state_cut[:, :, 0] == 245)
+        m2 = (state_cut[:, :, 1] == 245)
+        m3 = (state_cut[:, :, 2] == 245)
+        m = m1 * m2 * m3
+        m = np.uint8(np.float32(m) * 255)
+        b1, b2 = cv2.connectedComponents(m)
         for i in range(1, np.max(b2) + 1):
             x, y = np.where(b2 == i)
             # print('fast', len(x))
