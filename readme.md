@@ -9,7 +9,7 @@
 
 ### Run
 
-	python play.py --phone Android --sensitivity 2.051
+	python play.py --phone Android --sensitivity 2.045
 
 - `--phone` has two options: Android or IOS.
 - `--sensitivity` is the constant parameter that controls the pressing time.
