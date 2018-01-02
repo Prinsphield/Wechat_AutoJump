@@ -41,6 +41,7 @@ class WechatAutoJump(object):
         self.sensitivity = sensitivity
         self.debug = debug
         self.resource_dir = resource_dir
+        self.bb_size = [300, 300]
         self.step = 0
         self.load_resource()
         if self.phone == 'IOS':
@@ -86,13 +87,17 @@ class WechatAutoJump(object):
 
     def get_target_position(self, state, player_pos):
         state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
-        state_cut = state[:player_pos[0],:]
+        sym_center = [1280, 720] - player_pos
+        sym_tl = np.maximum([0,0], sym_center + np.array([-self.bb_size[0]//2, -self.bb_size[1]//2]))
+        sym_br = np.array([min(sym_center[0] + self.bb_size[0]//2, player_pos[0]), min(sym_center[0] + self.bb_size[1]//2, 720)])
+
+        state_cut = state[sym_tl[0]:sym_br[0], sym_tl[1]:sym_br[1]]
         target_pos = None
         for target in self.jump_file:
-            pos = multi_scale_search(target, state_cut, 0.4, 15)
+            pos = multi_scale_search(target, state_cut, 0.3, 12)
             if target_pos is None or pos[-1] > target_pos[-1]:
                 target_pos = pos
-        return np.array([(target_pos[0]+target_pos[2])//2, (target_pos[1]+target_pos[3])//2])
+        return np.array([(target_pos[0]+target_pos[2])//2, (target_pos[1]+target_pos[3])//2]) + sym_tl
 
     def get_target_position_fast(self, state, player_pos):
         state_cut = state[:player_pos[0],:,:]
