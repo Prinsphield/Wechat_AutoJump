@@ -104,7 +104,7 @@ class WechatAutoJump(object):
             self.keep_prob: 1.0,
         }
         pred_out = self.sess.run(self.pred, feed_dict=feed_dict)
-        return pred_out[0]
+        return pred_out[0].astype(int)
 
     def get_target_position_fast(self, state, player_pos):
         state_cut = state[:player_pos[0],:,:]
