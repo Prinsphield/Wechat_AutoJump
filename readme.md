@@ -7,6 +7,12 @@
 - Adb tools
 - Android Phone
 
+### Install
+
+```
+pip3 install -r requirements.txt
+```
+
 ### Run
 
 	python play.py --phone Android --sensitivity 2.045
