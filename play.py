@@ -7,9 +7,6 @@ import time
 import os, glob, shutil
 import cv2
 import argparse
-from multiprocessing import Pool
-from functools import partial
-from itertools import repeat
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
@@ -108,7 +105,7 @@ class WechatAutoJump(object):
         b1, b2 = cv2.connectedComponents(m)
         for i in range(1, np.max(b2) + 1):
             x, y = np.where(b2 == i)
-            # print('fast', len(x))
+            print('fast', len(x))
             if len(x) > 280 and len(x) < 310:
                 r_x, r_y = x, y
         h, w = int(r_x.mean()), int(r_y.mean())

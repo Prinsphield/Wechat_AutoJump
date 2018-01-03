@@ -10,7 +10,6 @@ import argparse
 import tensorflow as tf
 from model import JumpModel
 
-
 def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
     h, w = pivot.shape[:2]
@@ -67,7 +66,6 @@ class WechatAutoJump(object):
         if ckpt and ckpt.model_checkpoint_path:
             self.saver.restore(self.sess, ckpt.model_checkpoint_path)
             print('==== successfully restored ====')
-
 
     def get_current_state(self):
         if self.phone == 'Android':
@@ -158,7 +156,6 @@ class WechatAutoJump(object):
                 self.play()
         except KeyboardInterrupt:
                 pass
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
