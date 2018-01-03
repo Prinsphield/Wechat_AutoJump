@@ -53,7 +53,7 @@ class WechatAutoJump(object):
         self.player = cv2.imread(os.path.join(self.resource_dir, 'player.png'), 0)
         # network initization
         self.net = JumpModel()
-        self.img = tf.placeholder(tf.float32, [None, 1280, 720, 3], name='img')
+        self.img = tf.placeholder(tf.float32, [None, 640, 720, 3], name='img')
         self.label = tf.placeholder(tf.float32, [None, 2], name='label')
         self.is_training = tf.placeholder(np.bool, name='is_training')
         self.keep_prob = tf.placeholder(np.float32, name='keep_prob')
@@ -62,7 +62,7 @@ class WechatAutoJump(object):
 
         self.sess = tf.Session()
         self.sess.run(tf.global_variables_initializer())
-        ckpt = tf.train.get_checkpoint_state(os.path.join(self.resource_dir, 'train_logs1'))
+        ckpt = tf.train.get_checkpoint_state(os.path.join(self.resource_dir, 'train_logs2'))
         if ckpt and ckpt.model_checkpoint_path:
             self.saver.restore(self.sess, ckpt.model_checkpoint_path)
             print('==== successfully restored ====')
@@ -97,7 +97,7 @@ class WechatAutoJump(object):
 
     def get_target_position(self, state, player_pos):
         feed_dict = {
-            self.img: np.expand_dims(state, 0),
+            self.img: np.expand_dims(state[320:-320], 0),
             self.is_training: False,
             self.keep_prob: 1.0,
         }

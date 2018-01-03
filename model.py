@@ -5,7 +5,7 @@ import cv2
 
 class JumpModel:
     def __init__(self):
-        self.img_shape = (1280, 720)
+        self.img_shape = (640, 720)
         self.batch_size = 8
         self.input_channle = 3
         self.out_channel = 2
@@ -52,14 +52,14 @@ class JumpModel:
         out = self.make_conv_bn_relu('conv5', out, [9, 9, 128, 256], 1, is_training)
         out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-        out = tf.reshape(out, [-1, 256 * 40 * 23])
-        out = self.make_fc('fc1', out, [256 * 40 * 23, 256], keep_prob)
+        out = tf.reshape(out, [-1, 256 * 20 * 23])
+        out = self.make_fc('fc1', out, [256 * 20 * 23, 256], keep_prob)
         out = self.make_fc('fc2', out, [256, 2], keep_prob)
 
         return out
 
 if __name__ == '__main__':
     model = JumpModel()
-    out = model.forward(tf.zeros((1, 1280, 720, 3)))
+    out = model.forward(tf.zeros((1, 640, 720, 3)))
     print(out.get_shape().as_list())
 
