@@ -65,7 +65,11 @@ CNN train log and train&validation data avaliable at
 - [Baidu Drive](https://pan.baidu.com/s/1c2rrlra)
 - [Google Drive](https://drive.google.com/drive/folders/1tCUf2krzMpkQh_RJL02x0z__4j7MaUI4?usp=sharing)
 
-**Training:** you need to download and untar data directory and change data dir path in data_provider
+**Training:** you need to download and untar data directory and accordingly change data dir path in files under `cnn_coarse_to_fine/data_provider` directory.
 
-**Inference:** you need to download and unzip train log dirs and put them in dir named resource
+**Inference:** you need to download and unzip train log dirs into `resource` directory.
+
+### Algorithm Details
+
+For algorithm details, please go to [https://prinsphield.github.io/posts/2018/01/wechat_jump/](https://prinsphield.github.io/posts/2018/01/wechat_jump/).
 
