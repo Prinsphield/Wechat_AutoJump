@@ -9,7 +9,7 @@ import cv2
 import argparse
 import tensorflow as tf
 from model import JumpModel
-from model_fine import JumpModel as JumpModelFine
+from model_fine import JumpModelFine
 import wda
 from IPython import embed
 
@@ -66,18 +66,16 @@ class WechatAutoJump(object):
         self.keep_prob = tf.placeholder(np.float32, name='keep_prob')
         self.pred = self.net.forward(self.img, self.is_training, self.keep_prob)
         self.pred_fine = self.net_fine.forward(self.img_fine, self.is_training, self.keep_prob)
-        self.saver = tf.train.Saver()
-        self.saver_fine = tf.train.Saver()
 
         self.sess = tf.Session()
-        self.sess_fine = tf.Session()
         self.sess.run(tf.global_variables_initializer())
-        self.sess_fine.run(tf.global_variables_initializer())
-        # ckpt = tf.train.get_checkpoint_state(os.path.join(self.resource_dir, 'train_logs2'))
-        # if ckpt and ckpt.model_checkpoint_path:
-        #     self.saver.restore(self.sess, ckpt.model_checkpoint_path)
-        self.saver.restore(self.sess, self.ckpt)
-        self.saver_fine.restore(self.sess_fine, self.ckpt_fine)
+        all_vars = tf.all_variables()
+        var_coarse = [k for k in all_vars if k.name.startswith('coarse')]
+        var_fine = [k for k in all_vars if k.name.startswith('fine')]
+        self.saver_coarse = tf.train.Saver(var_coarse)
+        self.saver_fine = tf.train.Saver(var_fine)
+        self.saver_coarse.restore(self.sess, self.ckpt)
+        self.saver_fine.restore(self.sess, self.ckpt_fine)
         print('==== successfully restored ====')
 
     def get_current_state(self):
@@ -116,15 +114,25 @@ class WechatAutoJump(object):
         }
         pred_out = self.sess.run(self.pred, feed_dict=feed_dict)
         pred_out = pred_out[0].astype(int)
-        img_fine = state[pred_out[0] - 160: pred_out[0] + 160, pred_out[1] - 160, pred_out[1] + 160, :]
+        x1 = pred_out[0] - 160
+        x2 = pred_out[0] + 160
+        y1 = pred_out[1] - 160
+        y2 = pred_out[1] + 160
+        if y1 < 0:
+            y1 = 0
+            y2 = 320
+        if y2 > state.shape[1]:
+            y2 = state.shape[1]
+            y1 = y2 - 320
+        img_fine_in = state[x1: x2, y1: y2, :]
         feed_dict_fine = {
-            self.img_fine: np.expand_dims(img_fine, 0),
+            self.img_fine: np.expand_dims(img_fine_in, 0),
             self.is_training: False,
             self.keep_prob: 1.0,
         }
-        pred_out_fine = self.sess_fine.run(self.pred_fine, feed_dict)
+        pred_out_fine = self.sess.run(self.pred_fine, feed_dict=feed_dict_fine)
         pred_out_fine = pred_out_fine[0].astype(int)
-        out = pred_out_fine - np.array([160, 160]) + pred_out
+        out = pred_out_fine + np.array([x1, y1])
         return out
 
     def get_target_position_fast(self, state, player_pos):

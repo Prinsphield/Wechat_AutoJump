@@ -3,7 +3,7 @@ import numpy as np
 import os
 import cv2
 
-class JumpModel:
+class JumpModelFine:
     def __init__(self):
         self.img_shape = (320, 320)
         self.batch_size = 8
@@ -61,6 +61,6 @@ class JumpModel:
         return out
 
 if __name__ == '__main__':
-    model = JumpModel()
+    model = JumpModelFine()
     out = model.forward(tf.zeros((1, 320, 320, 3)))
     print(out.get_shape().as_list())

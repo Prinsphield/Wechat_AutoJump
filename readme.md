@@ -4,6 +4,7 @@
 
 - Python
 - Opencv
+- tensorflow (if using nn_play.py)
 
 #### for Androis
 - Adb tools

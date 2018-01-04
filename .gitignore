@@ -108,5 +108,6 @@ test/
 exp*/
 train_log*/
 *.ckpt*
+.idea
 
 
