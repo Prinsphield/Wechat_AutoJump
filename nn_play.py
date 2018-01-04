@@ -10,7 +10,6 @@ import argparse
 import tensorflow as tf
 from model import JumpModel
 from model_fine import JumpModelFine
-import wda
 from IPython import embed
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
@@ -48,6 +47,7 @@ class WechatAutoJump(object):
         self.ckpt_fine = os.path.join(self.resource_dir, 'train_log_fine/best_model.ckpt-53999')
         self.load_resource()
         if self.phone == 'IOS':
+            import wda
             self.client = wda.Client('http://localhost:8100')
             self.s = self.client.session()
         if self.debug:
