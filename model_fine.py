@@ -5,7 +5,7 @@ import cv2
 
 class JumpModel:
     def __init__(self):
-        self.img_shape = (640, 720)
+        self.img_shape = (320, 320)
         self.batch_size = 8
         self.input_channle = 3
         self.out_channel = 2
@@ -35,33 +35,32 @@ class JumpModel:
                 # out = tf.nn.dropout(out, keep_prob, name='%s-drop' % name)
         return out
 
-    def forward(self, img, is_training, keep_prob, name='coarse'):
+    def forward(self, img, is_training, keep_prob, name='fine'):
         with tf.name_scope(name):
             with tf.variable_scope(name):
                 out = self.conv2d('conv1', img, [3, 3, self.input_channle, 16], 2)
                 # out = tf.layers.batch_normalization(out, name='bn1', training=is_training)
                 out = tf.nn.relu(out, name='relu1')
 
-                out = self.make_conv_bn_relu('conv2', out, [3, 3, 16, 32], 1, is_training)
+                out = self.make_conv_bn_relu('conv2', out, [3, 3, 16, 64], 1, is_training)
                 out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-                out = self.make_conv_bn_relu('conv3', out, [5, 5, 32, 64], 1, is_training)
+                out = self.make_conv_bn_relu('conv3', out, [5, 5, 64, 128], 1, is_training)
                 out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-                out = self.make_conv_bn_relu('conv4', out, [7, 7, 64, 128], 1, is_training)
+                out = self.make_conv_bn_relu('conv4', out, [7, 7, 128, 256], 1, is_training)
                 out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-                out = self.make_conv_bn_relu('conv5', out, [9, 9, 128, 256], 1, is_training)
+                out = self.make_conv_bn_relu('conv5', out, [9, 9, 256, 512], 1, is_training)
                 out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-                out = tf.reshape(out, [-1, 256 * 20 * 23])
-                out = self.make_fc('fc1', out, [256 * 20 * 23, 256], keep_prob)
-                out = self.make_fc('fc2', out, [256, 2], keep_prob)
+                out = tf.reshape(out, [-1, 512 * 10 * 10])
+                out = self.make_fc('fc1', out, [512 * 10 * 10, 512], keep_prob)
+                out = self.make_fc('fc2', out, [512, 2], keep_prob)
 
         return out
 
 if __name__ == '__main__':
     model = JumpModel()
-    out = model.forward(tf.zeros((1, 640, 720, 3)))
+    out = model.forward(tf.zeros((1, 320, 320, 3)))
     print(out.get_shape().as_list())
-

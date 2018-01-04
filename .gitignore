@@ -107,5 +107,6 @@ resource1/
 test/
 exp*/
 train_log*/
+*.ckpt*
 
 

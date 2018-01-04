@@ -7,6 +7,8 @@ import time
 import os, glob, shutil
 import cv2
 import argparse
+import wda
+from IPython import embed
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
@@ -42,7 +44,7 @@ class WechatAutoJump(object):
         self.step = 0
         self.load_resource()
         if self.phone == 'IOS':
-            self.client = wda.Client()
+            self.client = wda.Client('http://localhost:8100')
             self.sess = self.client.session()
         if self.debug:
             if not os.path.exists(self.debug):
@@ -132,10 +134,16 @@ class WechatAutoJump(object):
     def play(self):
         self.state = self.get_current_state()
         self.player_pos = self.get_player_position(self.state)
-        try:
-            self.target_pos = self.get_target_position_fast(self.state, self.player_pos)
-        except:
+        if self.phone == 'IOS':
             self.target_pos = self.get_target_position(self.state, self.player_pos)
+            print('multiscale-search, step: %04d' % self.step)
+        else:
+            try:
+                self.target_pos = self.get_target_position_fast(self.state, self.player_pos)
+                print('fast-search, step: %04d' % self.step)
+            except:
+                self.target_pos = self.get_target_position(self.state, self.player_pos)
+                print('multiscale-search, step: %04d' % self.step)
         if self.debug:
             self.debugging()
         self.jump(self.player_pos, self.target_pos)

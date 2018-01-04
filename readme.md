@@ -4,16 +4,37 @@
 
 - Python
 - Opencv
+
+#### for Androis
 - Adb tools
 - Android Phone
+
+#### for IOS
+- iPhone
+- Mac
+- WebDriverAgent
+- facebook-wda
+- imobiledevice
+
+**Notice: recommend install above all following [site](https://testerhome.com/topics/7220)**
+
+### Algorithms for Localization
+- multiscale-search
+- CV based fast-search
+- Convolutional Neural Network based coarse-to-fine model
+
+**Notice: CV based fast-search only support Android for now**
 
 ### Run
 
 	python play.py --phone Android --sensitivity 2.045
+or
+	python nn_play.py --phone IOS --sensitivity 2.045
 
 - `--phone` has two options: Android or IOS.
 - `--sensitivity` is the constant parameter that controls the pressing time.
-
+- `play.py` using algorithm based on CV, support Android and IOS
+- `nn_play.py` using algorithm based on Convolutional Neural Network, support Android and IOS, recommend for IOS
 
 Our method can correctly detect the positions of the man (green dot) and the destination (red dot).
 
@@ -32,6 +53,3 @@ But I choose to go die after 859 jumps for about 1.5 hours.
 Here is a video demo (old version). Current version is much faster than this one. Excited!
 
 [![微信跳一跳](https://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg)](https://youtu.be/MQ0SCnOcjaI "自动玩微信小游戏跳一跳")
-
-Special thanks to [An](https://github.com/Richard-An)'s hacking ideas for speeding up.
-

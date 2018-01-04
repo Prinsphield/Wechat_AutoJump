@@ -9,6 +9,9 @@ import cv2
 import argparse
 import tensorflow as tf
 from model import JumpModel
+from model_fine import JumpModel as JumpModelFine
+import wda
+from IPython import embed
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
@@ -41,9 +44,11 @@ class WechatAutoJump(object):
         self.debug = debug
         self.resource_dir = resource_dir
         self.step = 0
+        self.ckpt = './resource/train_logs2/best_model.ckpt-13999'
+        self.ckpt_fine = './resource/train_log_fine/best_model.ckpt-53999'
         self.load_resource()
         if self.phone == 'IOS':
-            self.client = wda.Client()
+            self.client = wda.Client('http://localhost:8100')
             self.s = self.client.session()
         if self.debug:
             if not os.path.exists(self.debug):
@@ -53,19 +58,27 @@ class WechatAutoJump(object):
         self.player = cv2.imread(os.path.join(self.resource_dir, 'player.png'), 0)
         # network initization
         self.net = JumpModel()
+        self.net_fine = JumpModelFine()
         self.img = tf.placeholder(tf.float32, [None, 640, 720, 3], name='img')
+        self.img_fine = tf.placeholder(tf.float32, [None, 320, 320, 3], name='img_fine')
         self.label = tf.placeholder(tf.float32, [None, 2], name='label')
         self.is_training = tf.placeholder(np.bool, name='is_training')
         self.keep_prob = tf.placeholder(np.float32, name='keep_prob')
         self.pred = self.net.forward(self.img, self.is_training, self.keep_prob)
+        self.pred_fine = self.net_fine.forward(self.img_fine, self.is_training, self.keep_prob)
         self.saver = tf.train.Saver()
+        self.saver_fine = tf.train.Saver()
 
         self.sess = tf.Session()
+        self.sess_fine = tf.Session()
         self.sess.run(tf.global_variables_initializer())
-        ckpt = tf.train.get_checkpoint_state(os.path.join(self.resource_dir, 'train_logs2'))
-        if ckpt and ckpt.model_checkpoint_path:
-            self.saver.restore(self.sess, ckpt.model_checkpoint_path)
-            print('==== successfully restored ====')
+        self.sess_fine.run(tf.global_variables_initializer())
+        # ckpt = tf.train.get_checkpoint_state(os.path.join(self.resource_dir, 'train_logs2'))
+        # if ckpt and ckpt.model_checkpoint_path:
+        #     self.saver.restore(self.sess, ckpt.model_checkpoint_path)
+        self.saver.restore(self.sess, self.ckpt)
+        self.saver_fine.restore(self.sess_fine, self.ckpt_fine)
+        print('==== successfully restored ====')
 
     def get_current_state(self):
         if self.phone == 'Android':
@@ -102,7 +115,17 @@ class WechatAutoJump(object):
             self.keep_prob: 1.0,
         }
         pred_out = self.sess.run(self.pred, feed_dict=feed_dict)
-        return pred_out[0].astype(int)
+        pred_out = pred_out[0].astype(int)
+        img_fine = state[pred_out[0] - 160: pred_out[0] + 160, pred_out[1] - 160, pred_out[1] + 160, :]
+        feed_dict_fine = {
+            self.img_fine: np.expand_dims(img_fine, 0),
+            self.is_training: False,
+            self.keep_prob: 1.0,
+        }
+        pred_out_fine = self.sess_fine.run(self.pred_fine, feed_dict)
+        pred_out_fine = pred_out_fine[0].astype(int)
+        out = pred_out_fine - np.array([160, 160]) + pred_out
+        return out
 
     def get_target_position_fast(self, state, player_pos):
         state_cut = state[:player_pos[0],:,:]
@@ -113,7 +136,6 @@ class WechatAutoJump(object):
         b1, b2 = cv2.connectedComponents(m)
         for i in range(1, np.max(b2) + 1):
             x, y = np.where(b2 == i)
-            # print('fast', len(x))
             if len(x) > 280 and len(x) < 310:
                 r_x, r_y = x, y
         h, w = int(r_x.mean()), int(r_y.mean())
@@ -140,10 +162,16 @@ class WechatAutoJump(object):
     def play(self):
         self.state = self.get_current_state()
         self.player_pos = self.get_player_position(self.state)
-        try:
-            self.target_pos = self.get_target_position_fast(self.state, self.player_pos)
-        except:
+        if self.phone == 'IOS':
             self.target_pos = self.get_target_position(self.state, self.player_pos)
+            print('CNN-search: %04d' % self.step)
+        else:
+            try:
+                self.target_pos = self.get_target_position_fast(self.state, self.player_pos)
+                print('fast-search: %04d' % self.step)
+            except:
+                self.target_pos = self.get_target_position(self.state, self.player_pos)
+                print('CNN-search: %04d' % self.step)
         if self.debug:
             self.debugging()
         self.jump(self.player_pos, self.target_pos)
