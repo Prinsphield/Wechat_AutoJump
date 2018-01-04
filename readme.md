@@ -55,3 +55,5 @@ But I choose to go die after 859 jumps for about 1.5 hours.
 Here is a video demo (old version). Current version is much faster than this one. Excited!
 
 [![微信跳一跳](https://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg)](https://youtu.be/MQ0SCnOcjaI "自动玩微信小游戏跳一跳")
+
+cnn train log and training and validation data avaliable on [Baidu Drive]() and [Google Drive](https://drive.google.com/drive/folders/1tCUf2krzMpkQh_RJL02x0z__4j7MaUI4?usp=sharing)
