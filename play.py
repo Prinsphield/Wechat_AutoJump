@@ -7,7 +7,6 @@ import time
 import os, glob, shutil
 import cv2
 import argparse
-from IPython import embed
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
