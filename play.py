@@ -7,7 +7,6 @@ import time
 import os, glob, shutil
 import cv2
 import argparse
-import wda
 from IPython import embed
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
@@ -44,6 +43,7 @@ class WechatAutoJump(object):
         self.step = 0
         self.load_resource()
         if self.phone == 'IOS':
+            import wda
             self.client = wda.Client('http://localhost:8100')
             self.sess = self.client.session()
         if self.debug:
@@ -93,7 +93,7 @@ class WechatAutoJump(object):
         state_cut = state[sym_tl[0]:sym_br[0], sym_tl[1]:sym_br[1]]
         target_pos = None
         for target in self.jump_file:
-            pos = multi_scale_search(target, state_cut, 0.3, 12)
+            pos = multi_scale_search(target, state_cut, 0.4, 15)
             if target_pos is None or pos[-1] > target_pos[-1]:
                 target_pos = pos
         return np.array([(target_pos[0]+target_pos[2])//2, (target_pos[1]+target_pos[3])//2]) + sym_tl
@@ -107,7 +107,7 @@ class WechatAutoJump(object):
         b1, b2 = cv2.connectedComponents(m)
         for i in range(1, np.max(b2) + 1):
             x, y = np.where(b2 == i)
-            print('fast', len(x))
+            # print('fast', len(x))
             if len(x) > 280 and len(x) < 310:
                 r_x, r_y = x, y
         h, w = int(r_x.mean()), int(r_y.mean())

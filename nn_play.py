@@ -44,8 +44,8 @@ class WechatAutoJump(object):
         self.debug = debug
         self.resource_dir = resource_dir
         self.step = 0
-        self.ckpt = './resource/train_log_coarse/best_model.ckpt-13999'
-        self.ckpt_fine = './resource/train_log_fine/best_model.ckpt-53999'
+        self.ckpt = os.path.join(self.resource_dir, 'train_log_coarse/best_model.ckpt-13999')
+        self.ckpt_fine = os.path.join(self.resource_dir, 'train_log_fine/best_model.ckpt-53999')
         self.load_resource()
         if self.phone == 'IOS':
             self.client = wda.Client('http://localhost:8100')
@@ -196,7 +196,6 @@ class WechatAutoJump(object):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--phone', default='Android', choices=['Android', 'IOS'], type=str, help='mobile phone OS')
-    # parser.add_argument('--resolution', default=[1280, 720], nargs=2, type=int, help='mobile phone resolution')
     parser.add_argument('--sensitivity', default=2.051, type=float, help='constant for press time')
     parser.add_argument('--resource', default='resource', type=str, help='resource dir')
     parser.add_argument('--debug', default=None, type=str, help='debug mode, specify a directory for storing log files.')

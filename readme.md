@@ -6,18 +6,16 @@
 - Opencv
 - tensorflow (if using nn_play.py)
 
-#### for Androis
+#### for Android
 - Adb tools
 - Android Phone
 
-#### for IOS
+#### for IOS (Refer to this [site](https://testerhome.com/topics/7220) for installation)
 - iPhone
 - Mac
 - WebDriverAgent
 - facebook-wda
 - imobiledevice
-
-**Notice: recommend install above all following [site](https://testerhome.com/topics/7220)**
 
 ### Algorithms for Localization
 - multiscale-search
@@ -28,15 +26,20 @@
 
 ### Run
 
+It is recommended to run the following if have an android phone
+
 	python play.py --phone Android --sensitivity 2.045
-or 
-### 
+
+If you have an iPhone, download the model following the link bolow, and run the following
+
 	python nn_play.py --phone IOS --sensitivity 2.045
 
 - `--phone` has two options: Android or IOS.
 - `--sensitivity` is the constant parameter that controls the pressing time.
 - `play.py` using algorithm based on CV, support Android and IOS
 - `nn_play.py` using algorithm based on Convolutional Neural Network, support Android and IOS, recommend for IOS
+
+### Performance
 
 Our method can correctly detect the positions of the man (green dot) and the destination (red dot).
 
@@ -52,11 +55,13 @@ But I choose to go die after 859 jumps for about 1.5 hours.
 
 ### Demo Video
 
-Here is a video demo (old version). Current version is much faster than this one. Excited!
+Here is a video demo. Excited!
 
-[![微信跳一跳](https://img.youtube.com/vi/MQ0SCnOcjaI/0.jpg)](https://youtu.be/MQ0SCnOcjaI "自动玩微信小游戏跳一跳")
+[![微信跳一跳](https://img.youtube.com/vi/OeTI2Kx8Ehc/0.jpg)](https://youtu.be/OeTI2Kx8Ehc "自动玩微信小游戏跳一跳")
 
 ### Train Log & Data
-CNN train log and train&validation data avaliable on 
+
+CNN train log and train&validation data avaliable at
 - [Baidu Drive](https://pan.baidu.com/s/1c2rrlra)
 - [Google Drive](https://drive.google.com/drive/folders/1tCUf2krzMpkQh_RJL02x0z__4j7MaUI4?usp=sharing)
+
