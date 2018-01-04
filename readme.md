@@ -28,7 +28,8 @@
 ### Run
 
 	python play.py --phone Android --sensitivity 2.045
-or
+or 
+### 
 	python nn_play.py --phone IOS --sensitivity 2.045
 
 - `--phone` has two options: Android or IOS.
