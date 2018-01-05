@@ -199,8 +199,9 @@ if __name__ == "__main__":
     parser.add_argument('--sensitivity', default=2.051, type=float, help='constant for press time')
     parser.add_argument('--resource', default='resource', type=str, help='resource dir')
     parser.add_argument('--debug', default=None, type=str, help='debug mode, specify a directory for storing log files.')
+    parser.add_argument('--random', default=0, type=str, help='random')
     args = parser.parse_args()
     # print(args)
 
-    AI = WechatAutoJump(args.phone, args.sensitivity, args.debug, args.resource)
+    AI = WechatAutoJump(args.phone, args.sensitivity, args.debug, args.resource, args.random)
     AI.run()
