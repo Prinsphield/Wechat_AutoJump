@@ -67,7 +67,7 @@ CNN train log and train&validation data avaliable at
 
 **Training:** download and untar data into any directory, and then modify `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory.
 
-**Inference:** download and unzip train log dirs into `resource` directory.
+**Inference:** download and unzip train log dirs(`train_logs_coarse` and `train_log_fine`) into `resource` directory.
 
 ### Algorithm Details
 
