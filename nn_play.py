@@ -10,6 +10,7 @@ import argparse
 import tensorflow as tf
 from model import JumpModel
 from model_fine import JumpModelFine
+import random
 
 def multi_scale_search(pivot, screen, range=0.3, num=10):
     H, W = screen.shape[:2]
@@ -153,12 +154,12 @@ class WechatAutoJump(object):
         press_time = distance * self.sensitivity
         press_time = int(press_time)
         if self.phone == 'Android':
-            press_h, press_w = int(0.82*self.resolution[0]), self.resolution[1]//2
+            press_h, press_w = random.randint(300,1500), random.randint(200,800)
             cmd = 'adb shell input swipe {} {} {} {} {}'.format(press_w, press_h, press_w, press_h, press_time)
             print(cmd)
             os.system(cmd)
         elif self.phone == 'IOS':
-            self.s.tap_hold(200, 200, press_time / 1000.)
+            self.s.tap_hold(random.randint(300,1500), random.randint(200,800), press_time / 1000.)
 
     def debugging(self):
         current_state = self.state.copy()
