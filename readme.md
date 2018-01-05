@@ -71,5 +71,5 @@ CNN train log and train&validation data avaliable at
 
 ### Algorithm Details
 
-For algorithm details, please go to [https://prinsphield.github.io/posts/2018/01/wechat_jump/](https://prinsphield.github.io/posts/2018/01/wechat_jump/).
+For algorithm details, please go to [https://zhuanlan.zhihu.com/p/32636329](https://zhuanlan.zhihu.com/p/32636329).
 
