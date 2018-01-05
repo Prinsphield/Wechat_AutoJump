@@ -65,9 +65,9 @@ CNN train log and train&validation data avaliable at
 - [Baidu Drive](https://pan.baidu.com/s/1c2rrlra)
 - [Google Drive](https://drive.google.com/drive/folders/1tCUf2krzMpkQh_RJL02x0z__4j7MaUI4?usp=sharing)
 
-**Training:** you need to download and untar data directory and accordingly change data dir path in files under `cnn_coarse_to_fine/data_provider` directory.
+**Training:** download and untar data into any directory, and then change `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory.
 
-**Inference:** you need to download and unzip train log dirs into `resource` directory.
+**Inference:** download and unzip train log dirs into `resource` directory.
 
 ### Algorithm Details
 
