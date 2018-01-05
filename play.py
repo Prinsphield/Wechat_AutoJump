@@ -34,7 +34,7 @@ def multi_scale_search(pivot, screen, range=0.3, num=10):
     return [start_h, start_w, end_h, end_w, score]
 
 class WechatAutoJump(object):
-    def __init__(self, phone, sensitivity, debug, resource_dir):
+    def __init__(self, phone, sensitivity, serverURL, debug, resource_dir):
         self.phone = phone
         self.sensitivity = sensitivity
         self.debug = debug
@@ -42,9 +42,10 @@ class WechatAutoJump(object):
         self.bb_size = [300, 300]
         self.step = 0
         self.load_resource()
+        self.serverURL = serverURL
         if self.phone == 'IOS':
             import wda
-            self.client = wda.Client('http://localhost:8100')
+            self.client = wda.Client(self.serverURL)
             self.sess = self.client.session()
         if self.debug:
             if not os.path.exists(self.debug):
@@ -161,10 +162,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--phone', default='Android', choices=['Android', 'IOS'], type=str, help='mobile phone OS')
     parser.add_argument('--sensitivity', default=2.045, type=float, help='constant for press time')
+    parser.add_argument('--serverURL', default='http://localhost:8100', type=str,
+                        help='ServerURL for wda Client')
     parser.add_argument('--resource', default='resource', type=str, help='resource dir')
     parser.add_argument('--debug', default=None, type=str, help='debug mode, specify a directory for storing log files.')
     args = parser.parse_args()
     # print(args)
 
-    AI = WechatAutoJump(args.phone, args.sensitivity, args.debug, args.resource)
+    AI = WechatAutoJump(args.phone, args.sensitivity, args.serverURL, args.debug, args.resource)
     AI.run()
