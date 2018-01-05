@@ -151,7 +151,7 @@ class WechatAutoJump(object):
         return np.array([h, w])
 
     def jump(self, player_pos, target_pos):
-        distance = np.linalg.norm(player_pos - target_pos + random.randint(0, self.random*2) - self.random)
+        distance = np.linalg.norm(player_pos - target_pos + random.randint(0, self.random * 2) - self.random / 2)
         press_time = distance * self.sensitivity
         press_time = int(press_time)
         if self.phone == 'Android':
