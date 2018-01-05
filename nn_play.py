@@ -42,7 +42,7 @@ class WechatAutoJump(object):
         self.debug = debug
         self.resource_dir = resource_dir
         self.step = 0
-        self.ckpt = os.path.join(self.resource_dir, 'train_log_coarse/best_model.ckpt-13999')
+        self.ckpt = os.path.join(self.resource_dir, 'train_logs_coarse/best_model.ckpt-13999')
         self.ckpt_fine = os.path.join(self.resource_dir, 'train_log_fine/best_model.ckpt-53999')
         self.load_resource()
         if self.phone == 'IOS':
