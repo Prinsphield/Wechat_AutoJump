@@ -37,7 +37,7 @@ def multi_scale_search(pivot, screen, range=0.3, num=10):
     return [start_h, start_w, end_h, end_w, score]
 
 class WechatAutoJump(object):
-    def __init__(self, phone, sensitivity, debug, resource_dir):
+    def __init__(self, phone, sensitivity, debug, resource_dir, random):
         self.phone = phone
         self.sensitivity = sensitivity
         self.debug = debug
@@ -46,6 +46,7 @@ class WechatAutoJump(object):
         self.ckpt = os.path.join(self.resource_dir, 'train_logs_coarse/best_model.ckpt-13999')
         self.ckpt_fine = os.path.join(self.resource_dir, 'train_log_fine/best_model.ckpt-53999')
         self.load_resource()
+        self.random = int(random)
         if self.phone == 'IOS':
             import wda
             self.client = wda.Client('http://localhost:8100')
