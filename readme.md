@@ -30,7 +30,7 @@ It is recommended to run the following if have an android phone
 
 	python play.py --phone Android --sensitivity 2.045
 
-If you have an iPhone, download the model following the link bolow, and run the following
+If you have an iPhone, download the model following the link below, and run the following
 
 	python nn_play.py --phone IOS --sensitivity 2.045
 
