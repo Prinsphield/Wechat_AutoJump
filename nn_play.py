@@ -93,8 +93,8 @@ class WechatAutoJump(object):
         scale = state.shape[1] / 720.
         state = cv2.resize(state, (720, int(state.shape[0] / scale)), interpolation=cv2.INTER_NEAREST)
         if state.shape[0] > 1280:
-            s = state.shape[0] - 1280
-            state = state[s:,:,:]
+            s = (state.shape[0] - 1280)//2
+            state = state[s:(s+1280),:,:]
         elif state.shape[0] < 1280:
             s = 1280 - state.shape[0]
             state = np.concatenate((255 * np.ones((s, 720, 3), dtype=np.uint8), state), 0)
