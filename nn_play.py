@@ -203,5 +203,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # print(args)
 
-    AI = WechatAutoJump(args.phone, args.sensitivity, args.debug, args.resource)
+    AI = WechatAutoJump(args.phone, args.sensitivity, args.serverURL, args.debug, args.resource)
     AI.run()
