@@ -3,7 +3,7 @@
 ### 环境依赖
 
 - Python
-- Opencv
+- Opencv3
 - Tensorflow (如果运行`nn_play.py`)
 
 #### 对于安卓系统

@@ -7,7 +7,7 @@
 ### Requirements
 
 - Python
-- Opencv
+- Opencv3
 - Tensorflow (if using `nn_play.py`)
 
 #### for Android
