@@ -1,10 +1,12 @@
 # 自动玩微信小游戏跳一跳
 
+中文说明请点[这里](https://github.com/Prinsphield/Wechat_AutoJump/blob/master/readme_cn.md)
+
 ### Requirements
 
 - Python
 - Opencv
-- tensorflow (if using nn_play.py)
+- Tensorflow (if using `nn_play.py`)
 
 #### for Android
 - Adb tools
@@ -18,9 +20,11 @@
 - imobiledevice
 
 ### Algorithms for Localization
-- multiscale-search
+- Multiscale-search
 - CV based fast-search
 - Convolutional Neural Network based coarse-to-fine model
+
+For algorithm details, please go to [https://zhuanlan.zhihu.com/p/32636329](https://zhuanlan.zhihu.com/p/32636329).
 
 **Notice: CV based fast-search only support Android for now**
 
@@ -68,8 +72,4 @@ CNN train log and train&validation data avaliable at
 **Training:** download and untar data into any directory, and then modify `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory.
 
 **Inference:** download and unzip train log dirs(`train_logs_coarse` and `train_log_fine`) into `resource` directory.
-
-### Algorithm Details
-
-For algorithm details, please go to [https://zhuanlan.zhihu.com/p/32636329](https://zhuanlan.zhihu.com/p/32636329).
 
