@@ -4,7 +4,7 @@
 
 最新修正了一下各种aspect ratio的小问题，如果还有不能正确运行的问题，请发issue.
 
-如果修改sensitivity觉得效果不理想，建议试一试`nn_play.py`.
+如果修改sensitivity觉得效果不理想，一般是分辨率导致我resource下那些匹配不准，建议试一试`nn_play.py`.
 
 ### Requirements
 
