@@ -180,7 +180,7 @@ class WechatAutoJump(object):
             try:
                 self.target_pos = self.get_target_position_fast(self.state, self.player_pos)
                 print('fast-search: %04d' % self.step)
-            except:
+            except UnboundLocalError:
                 self.target_pos = self.get_target_position(self.state, self.player_pos)
                 print('CNN-search: %04d' % self.step)
         if self.debug:
