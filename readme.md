@@ -2,6 +2,8 @@
 
 中文说明请点[这里](https://github.com/Prinsphield/Wechat_AutoJump/blob/master/readme_cn.md)
 
+最新修正了一下各种aspect ratio的小问题，如果还有不能正确运行的问题，请发issue.
+
 ### Requirements
 
 - Python
