@@ -111,5 +111,7 @@ train_log*/
 .idea
 *.tar
 *.zip
+__pycache__
+DS_Store
 
 

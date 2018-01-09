@@ -33,7 +33,7 @@ if __name__ == '__main__':
     keep_prob = tf.placeholder(np.float32, name='keep_prob')
     lr = tf.placeholder(np.float32, name='lr')
 
-    pred = net.forward(img, is_training, keep_prob)
+    pred = net.forward(img, is_training, keep_prob, 'coarse')
     loss = tf.reduce_mean(tf.sqrt(tf.pow(pred - label, 2) + 1e-12))
     tf.summary.scalar('loss', loss)
     optimizer = tf.train.AdamOptimizer(lr)

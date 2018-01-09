@@ -24,7 +24,7 @@ def inference(path):
     keep_prob = tf.placeholder(np.float32, name='keep_prob')
     lr = tf.placeholder(np.float32, name='lr')
 
-    pred = net.forward(img, is_training, keep_prob)
+    pred = net.forward(img, is_training, keep_prob, coarse)
     saver = tf.train.Saver()
 
     sess = tf.Session()

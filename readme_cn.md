@@ -68,12 +68,12 @@
 
 **如果你想从头自己训练：** 下载好数据到任意目录下，然后修改`cnn_coarse_to_fine/data_provider`目录下所有文件的`self.data_dir`路径。
 
-**如果你只想跑一下我们的模型:** 下载好train log文件（包括`train_logs_coarse` and `train_log_fine`）并解压到`resource`目录。
+**如果你只想跑一下我们的模型:** 下载好train log文件（包括`train_logs_coarse` and `train_logs_fine`）并解压到`resource`目录。
 
 ### 如何自己训练CNN模型？
 
 0. 按照上述步骤下载并解压训练数据，并修改 `cnn_coarse_to_fine/data_provider` 文件夹下面的所有python文件的`self.data_dir` 选项到数据所在的路径。
 0. `base.large` 是coarse model的模型文件夹 `base.fine` 是fine model的模型文件夹, 其他在 `cnn_coarse_to_fine/config` 文件夹下面的模型我们都没有使用，但是如果你感兴趣，你可以训练这些模型，或者训练自己构建的模型。
 0. 运行 `python3 train.py -g 0` 训练模型，`-g`指定使用的GPU，如果你没有GPU，训练模型是不推荐的，因为使用CPU训练模型速度过于缓慢。
-0. 模型训练好之后，复制或移动 `.ckpt` 文件到训练日志文件夹(`train_logs_coarse` 和 `train_log_fine`) 来使用训练好的模型。
+0. 模型训练好之后，复制或移动 `.ckpt` 文件到训练日志文件夹(`train_logs_coarse` 和 `train_logs_fine`) 来使用训练好的模型。
 

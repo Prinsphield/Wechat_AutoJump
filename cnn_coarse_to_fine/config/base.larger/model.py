@@ -35,38 +35,40 @@ class JumpModel:
                 # out = tf.nn.dropout(out, keep_prob, name='%s-drop' % name)
         return out
 
-    def forward(self, img, is_training, keep_prob):
-        out = self.conv2d('conv1', img, [3, 3, self.input_channle, 16], 2)
-        # out = tf.layers.batch_normalization(out, name='bn1', training=is_training)
-        out = tf.nn.relu(out, name='relu1')
+    def forward(self, img, is_training, keep_prob, name):
+        with tf.name_scope(name):
+            with tf.variable_scope(name):
+                out = self.conv2d('conv1', img, [3, 3, self.input_channle, 16], 2)
+                # out = tf.layers.batch_normalization(out, name='bn1', training=is_training)
+                out = tf.nn.relu(out, name='relu1')
 
-        out = self.make_conv_bn_relu('conv2', out, [3, 3, 16, 32], 1, is_training)
-        out = self.make_conv_bn_relu('conv2_1', out, [3, 3, 32, 32], 1, is_training)
-        out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
+                out = self.make_conv_bn_relu('conv2', out, [3, 3, 16, 32], 1, is_training)
+                out = self.make_conv_bn_relu('conv2_1', out, [3, 3, 32, 32], 1, is_training)
+                out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-        out = self.make_conv_bn_relu('conv3', out, [5, 5, 32, 64], 1, is_training)
-        out = self.make_conv_bn_relu('conv3_1', out, [5, 5, 64, 64], 1, is_training)
-        out = self.make_conv_bn_relu('conv3_2', out, [5, 5, 64, 64], 1, is_training)
-        out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
+                out = self.make_conv_bn_relu('conv3', out, [5, 5, 32, 64], 1, is_training)
+                out = self.make_conv_bn_relu('conv3_1', out, [5, 5, 64, 64], 1, is_training)
+                out = self.make_conv_bn_relu('conv3_2', out, [5, 5, 64, 64], 1, is_training)
+                out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-        out = self.make_conv_bn_relu('conv4', out, [7, 7, 64, 128], 1, is_training)
-        out = self.make_conv_bn_relu('conv4_1', out, [7, 7, 128, 128], 1, is_training)
-        out = self.make_conv_bn_relu('conv4_2', out, [7, 7, 128, 128], 1, is_training)
-        out = self.make_conv_bn_relu('conv4_3', out, [7, 7, 128, 128], 1, is_training)
-        out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
+                out = self.make_conv_bn_relu('conv4', out, [7, 7, 64, 128], 1, is_training)
+                out = self.make_conv_bn_relu('conv4_1', out, [7, 7, 128, 128], 1, is_training)
+                out = self.make_conv_bn_relu('conv4_2', out, [7, 7, 128, 128], 1, is_training)
+                out = self.make_conv_bn_relu('conv4_3', out, [7, 7, 128, 128], 1, is_training)
+                out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-        out = self.make_conv_bn_relu('conv5', out, [9, 9, 128, 256], 1, is_training)
-        out = self.make_conv_bn_relu('conv5_1', out, [9, 9, 256, 256], 1, is_training)
-        out = self.make_conv_bn_relu('conv5_2', out, [9, 9, 256, 256], 1, is_training)
-        out = self.make_conv_bn_relu('conv5_3', out, [9, 9, 256, 256], 1, is_training)
-        out = self.make_conv_bn_relu('conv5_4', out, [9, 9, 256, 256], 1, is_training)
-        out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
+                out = self.make_conv_bn_relu('conv5', out, [9, 9, 128, 256], 1, is_training)
+                out = self.make_conv_bn_relu('conv5_1', out, [9, 9, 256, 256], 1, is_training)
+                out = self.make_conv_bn_relu('conv5_2', out, [9, 9, 256, 256], 1, is_training)
+                out = self.make_conv_bn_relu('conv5_3', out, [9, 9, 256, 256], 1, is_training)
+                out = self.make_conv_bn_relu('conv5_4', out, [9, 9, 256, 256], 1, is_training)
+                out = tf.nn.max_pool(out, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
 
-        out = tf.reshape(out, [-1, 256 * 20 * 23])
-        out = self.make_fc('fc1', out, [256 * 20 * 23, 512], keep_prob)
-        out = self.make_fc('fc2', out, [512, 128], keep_prob)
-        out = tf.nn.dropout(out, keep_prob)
-        out = self.make_fc('fc3', out, [128, 2], keep_prob)
+                out = tf.reshape(out, [-1, 256 * 20 * 23])
+                out = self.make_fc('fc1', out, [256 * 20 * 23, 512], keep_prob)
+                out = self.make_fc('fc2', out, [512, 128], keep_prob)
+                out = tf.nn.dropout(out, keep_prob)
+                out = self.make_fc('fc3', out, [128, 2], keep_prob)
 
         return out
 
