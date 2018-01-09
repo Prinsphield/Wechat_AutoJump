@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/anjie/projects/we_jump/')
+sys.path.append('../../')
 import numpy as np
 import os
 import tensorflow as tf
