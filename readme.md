@@ -77,9 +77,10 @@ CNN train log and train&validation data avaliable at
 
 **Inference:** download and unzip train log dirs(`train_logs_coarse` and `train_log_fine`) into `resource` directory.
 
-### How to Train CNN models?
-- download and untar data into any directory, and then modify `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory
-- `base.large` is model dir for coarse model, `base.fine` is model dir for fine model, other dirs under `cnn_coarse_to_fine/config` is models we don't use, but if you have interest, you can try train other models by yourself
-- run `python3 train.py -g 0` to train your model, `-g` to specify GPU to use, if you don't have GPU, training model is not recommended because training speed with CPU is very slow
-- after training, mv or copy `.ckpt` file to train log dirs(`train_logs_coarse` and `train_log_fine`) to use
+### How to Train CNN models by yourself?
+
+0. Download and untar data into any directory, and then modify `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory.
+0. `base.large` is model dir for coarse model, `base.fine` is model dir for fine model, other dirs under `cnn_coarse_to_fine/config` are models we don't use, but if you have interests, you can try train other models by yourself.
+0. Run `python3 train.py -g 0` to train your model, `-g` to specify GPU to use, if you don't have GPU, training model is not recommended because training speed with CPU is very slow.
+0. After training, mv or copy `.ckpt` file to train log dirs(`train_logs_coarse` and `train_log_fine`) for use.
 
