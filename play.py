@@ -92,7 +92,7 @@ class WechatAutoJump(object):
         state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
         sym_center = [1280, 720] - player_pos
         sym_tl = np.maximum([0,0], sym_center + np.array([-self.bb_size[0]//2, -self.bb_size[1]//2]))
-        sym_br = np.array([min(sym_center[0] + self.bb_size[0]//2, player_pos[0]), min(sym_center[0] + self.bb_size[1]//2, 720)])
+        sym_br = np.array([min(sym_center[0] + self.bb_size[0]//2, player_pos[0]), min(sym_center[1] + self.bb_size[1]//2, 720)])
 
         state_cut = state[sym_tl[0]:sym_br[0], sym_tl[1]:sym_br[1]]
         target_pos = None
