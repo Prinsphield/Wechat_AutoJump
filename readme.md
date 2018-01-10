@@ -6,7 +6,7 @@
 
 - Python
 - Opencv3
-- Tensorflow (if using `nn_play.py`)
+- Tensorflow
 
 #### for Android
 
@@ -39,7 +39,7 @@ It is recommended to download the pre-trained model following the link below and
 
 You can also try `play.py` by running the following code
 
-	python nn_play.py --phone Android --sensitivity 2.045
+	python play.py --phone Android --sensitivity 2.045
 
 - `--phone` has two options: Android or IOS.
 - `--sensitivity` is the constant parameter that controls the pressing time.
@@ -81,5 +81,5 @@ CNN train log and train&validation data avaliable at
 0. Download and untar data into any directory, and then modify `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory.
 0. `base.large` is model dir for coarse model, `base.fine` is model dir for fine model, other dirs under `cnn_coarse_to_fine/config` are models we don't use, but if you have interests, you can try train other models by yourself.
 0. Run `python3 train.py -g 0` to train your model, `-g` to specify GPU to use, if you don't have GPU, training model is not recommended because training speed with CPU is very slow.
-0. After training, mv or copy `.ckpt` file to train log dirs(`train_logs_coarse` and `train_logs_fine`) for use.
+0. After training, move or copy `.ckpt` file to train log dirs(`train_logs_coarse` and `train_logs_fine`) for use.
 

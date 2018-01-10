@@ -4,7 +4,7 @@
 
 - Python
 - Opencv3
-- Tensorflow (如果运行`nn_play.py`)
+- Tensorflow
 
 #### 对于安卓系统
 
