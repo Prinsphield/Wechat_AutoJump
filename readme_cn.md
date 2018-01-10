@@ -21,9 +21,9 @@
 
 ## 定位算法
 
-- Multiscale-search
-- CV based fast-search
-- Convolutional Neural Network based coarse-to-fine model
+- Multiscale search
+- Fast search
+- CNN-based coarse-to-fine model
 
 想要了解算法细节，请参见[https://zhuanlan.zhihu.com/p/32636329](https://zhuanlan.zhihu.com/p/32636329).
 
@@ -41,8 +41,8 @@
 
 - `--phone` 有两个选项: Android或者IOS.
 - `--sensitivity` 是一个控制按压时间的系数.
-- `nn_play.py` 采用了CNN based coarse-to-fine模型，支持Android和IOS,（鲁棒性更好，适用性强）
-- `play.py` 采用了Multiscale search和Fast search, 支持Android和IOS,（有的时候在其他手机下效果会差）
+- `nn_play.py` 采用了CNN-based coarse-to-fine模型，支持Android和IOS（鲁棒性更好，适用性强）
+- `play.py` 采用了Multiscale search和Fast search算法, 支持Android和IOS（有的时候在其他手机下效果会差）
 
 ## 性能
 

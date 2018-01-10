@@ -23,9 +23,9 @@
 
 ## Algorithms for Localization
 
-- Multiscale-search
-- CV based fast-search
-- Convolutional Neural Network based coarse-to-fine model
+- Multiscale search
+- Fast search
+- CNN-based coarse-to-fine model
 
 For algorithm details, please go to [https://zhuanlan.zhihu.com/p/32636329](https://zhuanlan.zhihu.com/p/32636329).
 
@@ -43,8 +43,8 @@ You can also try `play.py` by running the following code
 
 - `--phone` has two options: Android or IOS.
 - `--sensitivity` is the constant parameter that controls the pressing time.
-- `nn_play.py` using algorithm based on Convolutional Neural Network, support Android and IOS (more robust)
-- `play.py` using algorithm based on CV, support Android and IOS (it may fail sometimes)
+- `nn_play.py` uses CNN-based coarse-to-fine model, supporting Android and IOS (more robust)
+- `play.py` uses multiscale search and fast search algorithms, supporting Android and IOS (it may fail sometimes in other phones)
 
 ## Performance
 
