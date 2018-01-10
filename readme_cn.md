@@ -36,7 +36,7 @@
 如果是Android手机，在开发者选项里打开USB调试模式，在终端输入`adb devices`，确保设备列表不为空。
 如果是iPhone手机，确保你有一台mac电脑，然后照着这个[连接](https://testerhome.com/topics/7220)去做准备工作。
 
-强烈推荐下载预训练好的模型（参考后面给出的链接）并且运行下面的代码
+**强烈推荐**下载预训练好的模型（参考后面给出的链接）并且运行下面的代码
 
 	python nn_play.py --phone Android --sensitivity 2.045
 
