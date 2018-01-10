@@ -6,24 +6,27 @@
 
 如果修改sensitivity觉得效果不理想，一般是分辨率不是16:9，导致和resource匹配不准，这种情况建议试一试`nn_play.py`.
 
-### Requirements
+## Requirements
 
 - Python
 - Opencv3
 - Tensorflow (if using `nn_play.py`)
 
 #### for Android
+
 - Adb tools
 - Android Phone
 
 #### for IOS (Refer to this [site](https://testerhome.com/topics/7220) for installation)
+
 - iPhone
 - Mac
 - WebDriverAgent
 - facebook-wda
 - imobiledevice
 
-### Algorithms for Localization
+## Algorithms for Localization
+
 - Multiscale-search
 - CV based fast-search
 - Convolutional Neural Network based coarse-to-fine model
@@ -32,22 +35,22 @@ For algorithm details, please go to [https://zhuanlan.zhihu.com/p/32636329](http
 
 **Notice: CV based fast-search only support Android for now**
 
-### Run
+## Run
 
-It is recommended to run the following if have an android phone
+It is recommended to download the pre-trained model following the link below and run the following code
 
-	python play.py --phone Android --sensitivity 2.045
+	python nn_play.py --phone Android --sensitivity 2.045
 
-If you have an iPhone, download the model following the link below, and run the following
+You can also try `play.py` by running the following code
 
-	python nn_play.py --phone IOS --sensitivity 2.045
+	python nn_play.py --phone Android --sensitivity 2.045
 
 - `--phone` has two options: Android or IOS.
 - `--sensitivity` is the constant parameter that controls the pressing time.
-- `play.py` using algorithm based on CV, support Android and IOS
-- `nn_play.py` using algorithm based on Convolutional Neural Network, support Android and IOS, recommend for IOS
+- `nn_play.py` using algorithm based on Convolutional Neural Network, support Android and IOS (more robust)
+- `play.py` using algorithm based on CV, support Android and IOS (it may fail sometimes)
 
-### Performance
+## Performance
 
 Our method can correctly detect the positions of the man (green dot) and the destination (red dot).
 
@@ -61,13 +64,13 @@ But I choose to go die after 859 jumps for about 1.5 hours.
 </div>
 <br/>
 
-### Demo Video
+## Demo Video
 
 Here is a video demo. Excited!
 
 [![微信跳一跳](https://img.youtube.com/vi/OeTI2Kx8Ehc/0.jpg)](https://youtu.be/OeTI2Kx8Ehc "自动玩微信小游戏跳一跳")
 
-### Train Log & Data
+## Train Log & Data
 
 CNN train log and train&validation data avaliable at
 - [Baidu Drive](https://pan.baidu.com/s/1c2rrlra)
@@ -77,7 +80,7 @@ CNN train log and train&validation data avaliable at
 
 **Inference:** download and unzip train log dirs(`train_logs_coarse` and `train_logs_fine`) into `resource` directory.
 
-### How to Train CNN models by yourself?
+## How to Train CNN models by yourself?
 
 0. Download and untar data into any directory, and then modify `self.data_dir` in those files under `cnn_coarse_to_fine/data_provider` directory.
 0. `base.large` is model dir for coarse model, `base.fine` is model dir for fine model, other dirs under `cnn_coarse_to_fine/config` are models we don't use, but if you have interests, you can try train other models by yourself.

@@ -1,23 +1,26 @@
 # 自动玩微信小游戏跳一跳
 
-### 环境依赖
+## 环境依赖
 
 - Python
 - Opencv3
 - Tensorflow (如果运行`nn_play.py`)
 
 #### 对于安卓系统
+
 - Adb工具
 - 安卓手机
 
 #### IOS系统 (参考[这里](https://testerhome.com/topics/7220)进行安装)
+
 - iPhone
 - Mac
 - WebDriverAgent
 - facebook-wda
 - imobiledevice
 
-### 定位算法
+## 定位算法
+
 - Multiscale-search
 - CV based fast-search
 - Convolutional Neural Network based coarse-to-fine model
@@ -26,22 +29,22 @@
 
 **注意：CV based fast-search现在只能支持Android系统**
 
-### 运行
+## 运行
 
-如果你用的是Android手机，你可以运行
+强烈推荐下载预训练好的模型（参考后面给出的链接）并且运行下面的代码
+
+	python nn_play.py --phone Android --sensitivity 2.045
+
+当然你也可以使用`play.py`，只要运行
 
 	python play.py --phone Android --sensitivity 2.045
 
-如果你用的是iPhone，需要下载训练好的模型，然后运行
-
-	python nn_play.py --phone IOS --sensitivity 2.045
-
 - `--phone` 有两个选项: Android或者IOS.
 - `--sensitivity` 是一个控制按压时间的系数.
-- `play.py` 采用了Multiscale search和Fast search, 支持Android和IOS，但是IOS更推荐用下者
-- `nn_play.py` 采用了CNN based coarse-to-fine模型，支持IOS和Android
+- `nn_play.py` 采用了CNN based coarse-to-fine模型，支持Android和IOS,（鲁棒性更好，适用性强）
+- `play.py` 采用了Multiscale search和Fast search, 支持Android和IOS,（有的时候在其他手机下效果会差）
 
-### 性能
+## 性能
 
 我们的算法可以正确地检测出小人（绿色）和目标（红色）位置。
 
@@ -54,13 +57,13 @@
 </div>
 <br/>
 
-### 样例视频
+## 样例视频
 
 下面有一份样例视频，excited！
 
 [![微信跳一跳](https://img.youtube.com/vi/OeTI2Kx8Ehc/0.jpg)](https://youtu.be/OeTI2Kx8Ehc "自动玩微信小游戏跳一跳")
 
-### 训好的模型以及训练数据
+## 训好的模型以及训练数据
 
 训练好的CNN模型和训练数据可以从下面的链接下载
 - [Baidu Drive](https://pan.baidu.com/s/1c2rrlra)
@@ -70,7 +73,7 @@
 
 **如果你只想跑一下我们的模型:** 下载好train log文件（包括`train_logs_coarse` and `train_logs_fine`）并解压到`resource`目录。
 
-### 如何自己训练CNN模型？
+## 如何自己训练CNN模型？
 
 0. 按照上述步骤下载并解压训练数据，并修改 `cnn_coarse_to_fine/data_provider` 文件夹下面的所有python文件的`self.data_dir` 选项到数据所在的路径。
 0. `base.large` 是coarse model的模型文件夹 `base.fine` 是fine model的模型文件夹, 其他在 `cnn_coarse_to_fine/config` 文件夹下面的模型我们都没有使用，但是如果你感兴趣，你可以训练这些模型，或者训练自己构建的模型。
