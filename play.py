@@ -120,7 +120,7 @@ class WechatAutoJump(object):
     def jump(self, player_pos, target_pos):
         distance = np.linalg.norm(player_pos - target_pos)
         press_time = distance * self.sensitivity
-        press_time = int(press_time)
+        press_time = int(np.rint(press_time))
         press_h, press_w = int(0.82*self.resolution[0]), self.resolution[1]//2
         if self.phone == 'Android':
             cmd = 'adb shell input swipe {} {} {} {} {}'.format(press_w, press_h, press_w, press_h, press_time)
