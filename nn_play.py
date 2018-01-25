@@ -84,6 +84,8 @@ class WechatAutoJump(object):
             os.system('adb pull /sdcard/1.png state.png')
         elif self.phone == 'IOS':
             self.client.screenshot('state.png')
+        if not os.path.exists('state.png'):
+            raise NameError('Cannot obtain screenshot from your phone! Please follow the instructions in readme!')
 
         if self.debug:
             shutil.copyfile('state.png', os.path.join(self.debug, 'state_{:03d}.png'.format(self.step)))
