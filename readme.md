@@ -7,15 +7,17 @@
 - Python
 - Opencv3
 - Tensorflow
-### pip/pip3 install opencv-python
-### pip/pip3 install tensorflow
 
-#### for Android
+```pip/pip3 install opencv-python```
+```pip/pip3 install tensorflow```
+
+
+### for Android
 
 - Adb tools
 - Android Phone
 
-#### for IOS (Refer to this [site](https://testerhome.com/topics/7220) for installation)
+### for IOS (Refer to this [site](https://testerhome.com/topics/7220) for installation)
 
 - iPhone
 - Mac
