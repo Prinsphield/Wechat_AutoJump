@@ -7,6 +7,8 @@
 - Python
 - Opencv3
 - Tensorflow
+### pip/pip3 install opencv-python
+### pip/pip3 install tensorflow
 
 #### for Android
 
