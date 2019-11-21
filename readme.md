@@ -35,8 +35,7 @@ For algorithm details, please go to [https://zhuanlan.zhihu.com/p/32636329](http
 
 Before running our code, connect to your phone via USB.
 
-If Android phone, open the USB debugging at developer options enter `adb devices` to ensure that the list is not empty.
-If iPhone, please ensure that you have a mac. Then following this [link](https://testerhome.com/topics/7220) for preparation.
+On Android phones, open the USB debugging at developer options and enter adb devices to ensure a non-empty list. IPhones require a mac. Follow this [link](https://testerhome.com/topics/7220) for preparation.
 
 It is **recommended** to download the pre-trained model following the link below and run the following code
 
